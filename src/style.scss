@@ -1,0 +1,73 @@
+.letter_world{
+    width: 500px;
+    height: 100px;
+    background-color: aqua;
+    display: flex;
+}
+textarea{
+    resize: none;
+    width: 837px;
+    height: 200px;
+    font-size: 20px;
+}
+.lord_style{
+    width: 200px;
+    height: 200px;
+    background-color: #242424;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+.keyboard-wrapper{
+    display: grid;
+    grid-template-columns: repeat(30, 25px);
+    gap: 3px;
+    grid-template-rows: repeat(5,50px);
+    user-select: none;
+}
+.key:nth-child(14){
+    grid-area:1/27/2/31;
+}
+.key:nth-child(30){
+    grid-area:3/1/4/5;
+}
+.key:nth-child(43){
+    grid-area:4/1/5/5;
+}
+.key:nth-child(42){
+    grid-area:3/27/4/31;
+}
+.key:nth-child(55){
+    grid-area:4/27/5/31;
+}
+.key:nth-child(60){
+    grid-area:5/8/6/21;
+}
+.key:nth-child(57){
+    grid-area:5/1/6/4;
+}
+
+.key{
+    grid-column:span 2;
+    border: #242424 1px solid;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    transition: .3s;
+    &:active{
+        background-color: #109FDB;
+        border-radius: 10px;
+        
+    }
+}
+.key.active{
+    background-color: #109FDB;
+    border-radius: 10px;
+}
