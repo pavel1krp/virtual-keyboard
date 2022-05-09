@@ -124,6 +124,7 @@ document.addEventListener('keydown', (event) => {
     return;
   }
   if (event.code === 'AltRight') {
+    allKey[56].classList.remove('active');
     allKey[58].classList.add('active');
     textArea.value += '';
     return;
