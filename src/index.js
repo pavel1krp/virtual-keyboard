@@ -12,6 +12,11 @@ const word = document.createElement('div');
 word.classList.add('key');
 word.innerHTML = '1';
 
+const text = document.createElement('div');
+text.classList.add('text');
+body.appendChild(text);
+text.innerHTML = 'Клавиатура создана в операционной системе Windows <br>Для переключения языка комбинация: левыe ctrl + alt';
+
 for (let i = 0; i < 64; i += 1) {
   keyboardwrapper.appendChild(word.cloneNode(true));
 }
@@ -28,74 +33,70 @@ const AllArray = {
 
 const allKey = document.querySelectorAll('.key');
 
-allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.default[i]; });
-
-// allKey.forEach((el, i) => { const item = el; item.dataset.event = AllArray.eventArr[i]; });
-
 let isDiffLang = false;
 
+if (isDiffLang === true) {
+  allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.ru[i]; });
+} else {
+  allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.default[i]; });
+}
+
+function delSelect() {
+  textArea.focus();
+  textArea.value = textArea.value.slice(0, textArea.value.length - 1);
+}
+
 allKey.forEach((el, i) => el.addEventListener('click', () => {
-  if( el.innerHTML === 'Tab'){
+  textArea.focus();
+  if (el.innerHTML === 'Tab') {
     textArea.value += '    ';
-    return
+    return;
   }
-  if( el.innerHTML === 'Caps Lock'){
+  if (el.innerHTML === 'DEL') {
+    delSelect();
+    return;
+  }
+  if (el.innerHTML === 'Caps Lock') {
     if (allKey[29].classList.contains('active')) {
-      if( isDiffLang === true){
-        allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.ru[i]; });
-        } else {
-          allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.default[i]; });
-        }
-    }else {
-      if( isDiffLang === true){
-        allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.ruCaps[i]; });
-        } else {
-          allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.caps[i]; });
-        }
-    }
-    allKey[29].classList.toggle('active');
-    textArea.value += '';
-    return
-  }
-  if( el.innerHTML === 'ENTER'){
-    textArea.value += '\n';
-    return
-  }
-  if( el.innerHTML === 'Shift' || el.innerHTML === 'Ctrl' ||  el.innerHTML === 'Win' || el.innerHTML === 'Alt'){
-    return
-  }
-  if (allKey[29].classList.contains('active')) {
-    if(isDiffLang == true){
-      textArea.value += AllArray.ruCaps[i];
-    }else{
-      textArea.value += AllArray.caps[i];
-    }
-    }else{
-      if(isDiffLang == true){
-        textArea.value += AllArray.ru[i];
-      }else{
-        textArea.value += AllArray.default[i];
+      allKey[29].classList.remove('active');
+      if (isDiffLang === true) {
+        allKey.forEach((e, index) => { const item = e; item.innerHTML = AllArray.ru[index]; });
+      } else {
+        allKey.forEach((e, index) => { const item = e; item.innerHTML = AllArray.default[index]; });
+      }
+    } else {
+      allKey[29].classList.add('active');
+      if (isDiffLang === true) {
+        allKey.forEach((e, index) => { const item = e; item.innerHTML = AllArray.ruCaps[index]; });
+      } else {
+        allKey.forEach((e, index) => { const item = e; item.innerHTML = AllArray.caps[index]; });
       }
     }
+    return;
+  }
+  if (el.innerHTML === 'ENTER') {
+    textArea.value += '\n';
+    return;
+  }
+  if (el.innerHTML === 'Backspace') {
+    delSelect();
+    return;
+  }
+  if (el.innerHTML === 'Shift' || el.innerHTML === 'Ctrl' || el.innerHTML === 'Win' || el.innerHTML === 'Alt') {
+    return;
+  }
+  if (allKey[29].classList.contains('active')) {
+    if (isDiffLang === true) {
+      textArea.value += AllArray.ruCaps[i];
+    } else {
+      textArea.value += AllArray.caps[i];
+    }
+  } else if (isDiffLang === true) {
+    textArea.value += AllArray.ru[i];
+  } else {
+    textArea.value += AllArray.default[i];
+  }
 }));
-
-
-
-// function delSelect(){
-//   textArea.focus();
-
-//   const startPos = textArea.selectionStart;
-//   const endPos = textArea.selectionEnd;
-//   const text = textArea.value;
-//   textArea.setSelectionRange(startPos, endPos);
-//   text.substring(startPos, endPos);
-
-//   if(startPos == endPos){
-
-//   }else{
-
-//   }
-// }
 
 document.addEventListener('keydown', (event) => {
   if (event.code === 'Backspace') {
@@ -152,10 +153,6 @@ document.addEventListener('keydown', (event) => {
     textArea.value += '\n';
     return;
   }
-  // if (allKey[42].classList.contains('active')){
-  //   allKey.forEach((el, i) => { const item = el; item.innerHTML = AllArray.ruShift[i]; });
-  //   textArea.value += AllArray.ruShift[1];
-  // }
   if (event.code === 'CapsLock') {
     if (allKey[29].classList.contains('active')) {
       allKey[29].classList.remove('active');
@@ -190,8 +187,7 @@ document.addEventListener('keydown', (event) => {
       }
     }
   }
-}
-);
+});
 
 document.addEventListener('keyup', (event) => {
   if (event.code === 'ShiftLeft') {
